@@ -6,10 +6,6 @@ public abstract class SearchQuery extends Query {
 
 	private StringBuilder mTypes = new StringBuilder();
 	
-	public SearchQuery(boolean sensor) {
-		super(sensor);
-	}
-	
 	public void setLocation(double latitude, double longitude) {
 		String location = Double.toString(latitude) + "," + Double.toString(longitude);
 		mQueryBuilder.addParameter("location", location);

@@ -4,7 +4,11 @@ public abstract class Query {
 
 	protected QueryBuilder mQueryBuilder = new QueryBuilder();
 	
-	public Query(boolean sensor) {
+	public Query() {
+		setSensor(false); // Default
+	}
+	
+	public void setSensor(boolean sensor) {
 		mQueryBuilder.addParameter("sensor", Boolean.toString(sensor));
 	}
 	

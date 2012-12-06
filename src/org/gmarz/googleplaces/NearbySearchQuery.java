@@ -6,14 +6,13 @@ public class NearbySearchQuery extends SearchQuery {
 
 	public enum Ranking { Prominence, Distance };
 	
-	public NearbySearchQuery(Location location, int radius, boolean sensor) {
-		this(location.getLatitude(), location.getLongitude(), radius, sensor);
+	public NearbySearchQuery(Location location) {
+		this(location.getLatitude(), location.getLongitude());
 	}
 
-	public NearbySearchQuery(double lat, double lon, int radius, boolean sensor) {
-		super(sensor);
+	public NearbySearchQuery(double lat, double lon) {
 		setLocation(lat, lon);
-		setRadius(radius);
+		setRadius(2500); // Default
 	}
 	
 	public void setRanking(Ranking ranking)	{
