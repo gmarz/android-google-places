@@ -25,10 +25,6 @@ public abstract class Result {
 	private String mStatusCodeValue = "";
 	
 	public Result(JSONObject jsonResponse) throws JSONException {
-		if (jsonResponse == null) {
-			throw new NullPointerException();
-		}
-		
 		if (jsonResponse.has("status")) {
 			mStatusCode = getStatusCodeFromValue(jsonResponse.getString("status"));
 		} else {
