@@ -3,6 +3,7 @@ package org.gmarz.googleplaces.models;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -12,10 +13,9 @@ public class Place implements Parcelable {
 	private String mAddress = "";
 	private double mLatitude = 0;
 	private double mLongitude = 0;
-	private double mDistance = 0;
 	private double mRating = 0;
 	private String mReference = "";
-	
+
 	private PlaceDetails mDetails;
 	
 	private Place(Parcel in) {
@@ -78,14 +78,14 @@ public class Place implements Parcelable {
 		mLongitude = longitude;
 	}
 	
-	public double getDistance() {
-		return mDistance;
+	public double getDistanceTo(Location location) {
+		Location source = new Location("");
+		source.setLatitude(mLatitude);
+		source.setLongitude(mLongitude);
+		
+		return source.distanceTo(location);
 	}
 
-	public void setDistance(float value) {
-		mDistance = value;
-	}
-	
 	public double getRating() {
 		return mRating;
 	}
