@@ -1,4 +1,4 @@
-package org.gmarz.googleplaces;
+package org.gmarz.googleplaces.query;
 
 import java.util.ArrayList;
 import java.util.List;

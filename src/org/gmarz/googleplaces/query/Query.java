@@ -1,4 +1,4 @@
-package org.gmarz.googleplaces;
+package org.gmarz.googleplaces.query;
 
 public abstract class Query {
 
