@@ -5,12 +5,12 @@ Setup
 
 1) Obtain an API key.  Visit the <a href="https://developers.google.com/places/documentation/">developer's guide</a> for more information.
 
-2) Drop the <b>googleplaces.jar</b> in the lib folder of your Android project.
+2) Drop the googleplaces.jar in the lib folder of your Android project.
 
 Usage
 =====
 
-The following examples demonstrate the basic usage of the library and are not exhaustive of all the available options.  Check out <a href="https://github.com/gmarz/vicinity">vicinity</a> to see the library in action.
+A few examples...
 
 Place Search
 ------------
@@ -47,18 +47,13 @@ Place Details
 Sending a Place Details request
 
     Place somePlace = result.getPlaces().get(0);
-    DetailsQuery query = new DetailsQuery(somePlace.getReference());
-    
-    DetailsResult result = googlePlaces.getPlaceDetails(query);
-
-Handling a place details response
-
-    Place somePlace = result.getPlaces().get(0);
     
     DetailsQuery query = new DetailsQuery(somePlace.getReference());
     
     DetailsResult detailsResult = googlePlaces.getPlaceDetails(query);
-    
+
+Handling a place details response
+
     if (detailsResult.getStatusCode() == StatusCode.OK) {
         PlaceDetails details = detailsResult.getDetails();
     }
