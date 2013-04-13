@@ -2,6 +2,7 @@ package org.gmarz.googleplaces;
 
 import java.io.IOException;
 import java.util.AbstractSet;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
@@ -32,16 +33,11 @@ public class GooglePlaces {
 		loadSupportedPlaces();
 	}
 	
-	public PlacesResult getPlaces(String keyword, int radius, double lat, double lon, List<String> types) 
+	public PlacesResult getPlaces(List<String> types, String keyword, int radius, double lat, double lon) 
 			throws JSONException, ClientProtocolException, IOException {
-		SearchQuery query = null;
+		NearbySearchQuery query = new NearbySearchQuery(lat, lon);
 		
-		if (isSupportedPlace(keyword)) {
-			query = new NearbySearchQuery(lat, lon);
-		} else {
-			query = new TextSearchQuery(keyword);
-			query.setLocation(lat, lon);
-		}
+		query.setRadius(radius);
 		
 		if (types != null) {
 			for(String type : types){
@@ -49,17 +45,48 @@ public class GooglePlaces {
 			}
 		}
 		
-		query.setRadius(radius);
+		if (keyword != null && keyword != "") {
+			query.setKeyword(keyword);
+		}
 		
 		PlacesResult result = getPlaces(query);
+		
 		return result;
 	}
 	
-	public PlacesResult getPlaces(String keyword, int radius, double lat, double lon) 
-			throws JSONException, ClientProtocolException, IOException {
-		return getPlaces(keyword, radius, lat, lon, null);
+	public PlacesResult getPlaces(List<String> types, int radius, double lat, double lon) 
+			throws ClientProtocolException, JSONException, IOException {
+		return getPlaces(types, null, radius, lat, lon);
 	}
 	
+	public PlacesResult getPlaces(String type, String keyword, int radius, double lat, double lon) 
+			throws ClientProtocolException, JSONException, IOException {
+		List<String> types = Arrays.asList(type);
+		return getPlaces(types, keyword, radius, lat, lon);
+	}
+	
+	public PlacesResult getPlaces(String type, int radius, double lat, double lon)
+			throws ClientProtocolException, JSONException, IOException {
+		return getPlaces(type, null, radius, lat, lon);
+	}
+	
+	public PlacesResult getPlaces(String searchText, double lat, double lon) 
+			throws ClientProtocolException, JSONException, IOException {
+		TextSearchQuery query = new TextSearchQuery(searchText);
+		query.setLocation(lat, lon);
+		PlacesResult result = getPlaces(query);
+		
+		return result;
+	}
+	
+	public PlacesResult getPlaces(String searchText) 
+			throws ClientProtocolException, JSONException, IOException {
+		TextSearchQuery query = new TextSearchQuery(searchText);
+		PlacesResult result = getPlaces(query);
+		
+		return result;
+	}
+
 	public PlacesResult getPlaces(Query query) 
 			throws JSONException, ClientProtocolException, IOException {
 		JSONObject response = executeRequest(query.toString());
