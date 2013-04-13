@@ -2,6 +2,7 @@ package org.gmarz.googleplaces;
 
 import java.util.AbstractSet;
 import java.util.HashSet;
+import java.util.List;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
@@ -11,7 +12,11 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import org.gmarz.googleplaces.models.DetailsResult;
 import org.gmarz.googleplaces.models.PlacesResult;
+import org.gmarz.googleplaces.query.DetailsQuery;
+import org.gmarz.googleplaces.query.NearbySearchQuery;
 import org.gmarz.googleplaces.query.Query;
+import org.gmarz.googleplaces.query.SearchQuery;
+import org.gmarz.googleplaces.query.TextSearchQuery;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,6 +30,32 @@ public class GooglePlaces {
 		loadSupportedPlaces();
 	}
 	
+	public PlacesResult getPlaces(String keyword, int radius, double lat, double lon, List<String> types) {
+		SearchQuery query = null;
+		
+		if (isSupportedPlace(keyword)) {
+			query = new NearbySearchQuery(lat, lon);
+		} else {
+			query = new TextSearchQuery(keyword);
+			query.setLocation(lat, lon);
+		}
+		
+		if (types != null) {
+			for(String type : types){
+				query.addType(type);
+			}
+		}
+		
+		query.setRadius(radius);
+		
+		PlacesResult result = getPlaces(query);
+		return result;
+	}
+	
+	public PlacesResult getPlaces(String keyword, int radius, double lat, double lon) {
+		return getPlaces(keyword, radius, lat, lon, null);
+	}
+	
 	public PlacesResult getPlaces(Query query) {
 		JSONObject response = executeRequest(query.toString());
 		PlacesResult result = null;
@@ -35,6 +66,13 @@ public class GooglePlaces {
 			e.printStackTrace();
 		}
 
+		return result;
+	}
+	
+	public DetailsResult getPlaceDetails(String reference) {
+		DetailsQuery query = new DetailsQuery(reference);
+		DetailsResult result = getPlaceDetails(query);
+		
 		return result;
 	}
 	
