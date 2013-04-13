@@ -1,9 +1,11 @@
 package org.gmarz.googleplaces;
 
+import java.io.IOException;
 import java.util.AbstractSet;
 import java.util.HashSet;
 import java.util.List;
 
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
@@ -30,7 +32,8 @@ public class GooglePlaces {
 		loadSupportedPlaces();
 	}
 	
-	public PlacesResult getPlaces(String keyword, int radius, double lat, double lon, List<String> types) {
+	public PlacesResult getPlaces(String keyword, int radius, double lat, double lon, List<String> types) 
+			throws JSONException, ClientProtocolException, IOException {
 		SearchQuery query = null;
 		
 		if (isSupportedPlace(keyword)) {
@@ -52,40 +55,32 @@ public class GooglePlaces {
 		return result;
 	}
 	
-	public PlacesResult getPlaces(String keyword, int radius, double lat, double lon) {
+	public PlacesResult getPlaces(String keyword, int radius, double lat, double lon) 
+			throws JSONException, ClientProtocolException, IOException {
 		return getPlaces(keyword, radius, lat, lon, null);
 	}
 	
-	public PlacesResult getPlaces(Query query) {
+	public PlacesResult getPlaces(Query query) 
+			throws JSONException, ClientProtocolException, IOException {
 		JSONObject response = executeRequest(query.toString());
-		PlacesResult result = null;
-		
-		try {
-			result = new PlacesResult(response);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
+		PlacesResult result = new PlacesResult(response);
 
 		return result;
 	}
 	
-	public DetailsResult getPlaceDetails(String reference) {
+	public DetailsResult getPlaceDetails(String reference) 
+			throws JSONException, ClientProtocolException, IOException {
 		DetailsQuery query = new DetailsQuery(reference);
 		DetailsResult result = getPlaceDetails(query);
 		
 		return result;
 	}
 	
-	public DetailsResult getPlaceDetails(Query query) {
+	public DetailsResult getPlaceDetails(Query query) 
+			throws JSONException, ClientProtocolException, IOException {
 		JSONObject response = executeRequest(query.toString());
-		DetailsResult result = null;
-		
-		try {
-			result = new DetailsResult(response);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
+		DetailsResult result = new DetailsResult(response);
+
 		return result;
 	}
 
@@ -93,21 +88,16 @@ public class GooglePlaces {
 		return (mSupportedPlaces.contains(placeType));
 	}
 	
-	private JSONObject executeRequest(String query) {
+	private JSONObject executeRequest(String query) 
+			throws ClientProtocolException, IOException, JSONException {
 		query += "key=" + mApiKey;
 		
 		HttpClient client = new DefaultHttpClient();
 		HttpGet request = new HttpGet(query);
 
 		ResponseHandler<String> handler = new BasicResponseHandler();
-		JSONObject jsonResponse = null;
-		
-		try {
-			String response = client.execute(request, handler);
-			jsonResponse = new JSONObject(response);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		String response = client.execute(request, handler);
+		JSONObject jsonResponse = new JSONObject(response);
 		
 		return jsonResponse;
 	}
