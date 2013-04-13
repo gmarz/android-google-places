@@ -1,9 +1,8 @@
-package org.gmarz.googleplaces;
+package org.gmarz.googleplaces.models;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.gmarz.googleplaces.models.Place;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

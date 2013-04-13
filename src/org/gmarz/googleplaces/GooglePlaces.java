@@ -9,6 +9,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import org.gmarz.googleplaces.models.DetailsResult;
+import org.gmarz.googleplaces.models.PlacesResult;
 import org.gmarz.googleplaces.query.Query;
 import org.json.JSONException;
 import org.json.JSONObject;
