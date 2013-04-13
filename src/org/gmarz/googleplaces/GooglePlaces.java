@@ -1,7 +1,7 @@
 package org.gmarz.googleplaces;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.AbstractSet;
+import java.util.HashSet;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
@@ -18,7 +18,7 @@ import org.json.JSONObject;
 public class GooglePlaces {
 
 	private String mApiKey = "";
-	private List<String> mSupportedPlaces;
+	private AbstractSet<String> mSupportedPlaces;
 	
 	public GooglePlaces(String apiKey) {
 		mApiKey = apiKey;
@@ -75,7 +75,7 @@ public class GooglePlaces {
 	}
 
 	private void loadSupportedPlaces() {
-		mSupportedPlaces = new ArrayList<String>();
+		mSupportedPlaces = new HashSet<String>();
 		
 		mSupportedPlaces.add("accounting");
 		mSupportedPlaces.add("airport");
