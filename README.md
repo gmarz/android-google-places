@@ -15,25 +15,15 @@ A few examples...
 Place Search
 ------------
 
-Sending a Nearby Search request
+Sending a search request
 
     GooglePlaces googlePlaces = new GooglePlaces("Your API Key");
-
-    NearbySearchQuery query = new NearbySearchQuery(40.764941, -73.984886);
-    query.setRadius(500);
-    query.addType("food");
-    query.addType("restaurant");
-    query.setKeyword("steakhouse");
     
-    PlacesResult result = googlePlaces.getPlaces(query);
-
-Sending a Text Search request
-
-    TextSearchQuery query = new TextSearchQuery("24 hour diners");
-    query.setLocation(40.764941, -73.984886);
-    query.setRadius(500);
+    PlacesResult result = googlePlaces.getPlaces("food", 500, 40.764941, -73.984886);
     
-    PlacesResult result = googlePlaces.getPlaces(query);
+    PlacesResult result = googlePlaces.getPlaces("food", "steakhouse", 500, 40.764941, -73.984886);
+    
+    PlacesResult result = googlePlaces.getPlaces("diners", 40.764941, -73.984886);
 
 Handling a place search response
 
@@ -48,9 +38,7 @@ Sending a Place Details request
 
     Place somePlace = result.getPlaces().get(0);
     
-    DetailsQuery query = new DetailsQuery(somePlace.getReference());
-    
-    DetailsResult detailsResult = googlePlaces.getPlaceDetails(query);
+    DetailsResult detailsResult = googlePlaces.getPlaceDetails(somePlace.getReference());
 
 Handling a place details response
 
